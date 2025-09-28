@@ -1,75 +1,50 @@
+# Import necessary libraries
 import streamlit as st
-
 import numpy as np 
-
 from sklearn.preprocessing import StandardScaler
-
 import joblib
 
 
-
+# Set page configuration
 st.set_page_config(layout="wide")
 
 
 scaler = StandardScaler()
 
-
+# Title of the app
 st.title("Restaurant Rating Prediction App")
-
-
 st.set_page_config(layout="wide")
-
-
 scaler = joblib.load("scaler.pkl")
 
 
-
+# Description
 st.caption("This app helps you to predict a restaurant review class")
-
-
 st.divider()
 
-
+# Input fields
 averagecost = st.number_input("Please enter the estimated average cost for two", min_value=50, max_value=999999, value=1000, step=200)
-
-
 tablebooking = st.selectbox("Does the restaurant accept table booking?", options=["Yes", "No"])
-
-
 onlinedelivery = st.selectbox("Does the restaurant accept online delivery?", options=["Yes", "No"])
-
 pricerange = st.selectbox("What is the price range of the restaurant? (1 Cheapest, 4 Most Expensive)", options=[1, 2, 3, 4])
 
-
+# Prediction
 predictionbutton = st.button("Predict Review Class")
-
 
 st.divider()
 
 
 joblib.load("model.pkl")
-
-
 model = joblib.load("model.pkl")
-
-
 bookingstatus = 1 if tablebooking == "Yes" else 0
-
-
 deliverystatus = 1 if onlinedelivery == "Yes" else 0
 
 
 values = np.array([[averagecost, bookingstatus, deliverystatus, pricerange]])
-
 my_X_values = np.array(values)
-
-
 X = scaler.transform(my_X_values)
 
 
-
-
-
+# Show prediction result
 if predictionbutton:
     st.snow()
 
